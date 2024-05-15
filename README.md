@@ -1,4 +1,4 @@
-# Sample DBT project with CICD
+# Run DBT Core on Azure with Containerapps
 
 # Reference
 ## Improve the build time of build pipelines
