@@ -1,0 +1,105 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+# This pipeline is a check in azure devops. Code changes will only be deployed if this
+# pipeline succeeds
+
+trigger:
+- none
+
+name: 'Perform Integration Checks'
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  pip_download_dir: $(Pipeline.Workspace)/.pip
+
+stages:
+- stage: lint
+  displayName: Lint
+  jobs:
+    - job: sql_and_python_linting
+      displayName: Perform linting on .py and .sql files
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: Cache@2
+        displayName: Load cache
+        inputs:
+          key: 'pip | "$(Agent.OS)" | transform/requirements.txt'
+          path: $(pip_download_dir)
+          cacheHitVar: cacheRestored
+      - script: |
+          export TOP_DIR=$(git rev-parse --show-toplevel)
+          pip download -r ${TOP_DIR}/transform/requirements.txt --dest=$(pip_download_dir)
+        displayName: "Download requirements"
+        condition: eq(variables.cacheRestored, 'false')
+      - script: |
+          bash .workflows/bin/linter.sh
+        env:
+          snowflake_username: $(snowflake_username)
+          snowflake_password: $(snowflake_password)
+          snowflake_account: $(snowflake_account)
+          pip_download_dir: $(pip_download_dir)
+        displayName: 'Perform linting checks'
+
+- stage: dbt_checks
+  displayName: DBT Checks
+  jobs:
+    - job: install_requirements
+      displayName: Install python requirements
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: Cache@2
+        displayName: Load cache
+        inputs:
+          key: 'pip | "$(Agent.OS)" | transform/requirements.txt'
+          path: $(pip_download_dir)
+          cacheHitVar: cacheRestored
+      - script: |
+          echo "##[debug] Retrieve the current state of the dbt project"
+          bash .workflows/bin/get_current_dbt_state.sh
+
+          echo "##[debug] Installing python dependencies"
+          export TOP_DIR=$(git rev-parse --show-toplevel)
+          pip install -r ${TOP_DIR}/transform/requirements.txt --no-index --find-links=$(pip_download_dir)
+          cd ${TOP_DIR}/transform/adventureworks
+
+          echo "##[debug] Performing dbt tests"
+          dbt deps --target dev --profiles-dir .
+          dbt debug --target dev --profiles-dir .
+
+          if [[ -f manifest.json ]]; then
+            dbt test --target dev --profiles-dir . --select state:modified+ --state ./
+          else
+            dbt test --target dev --profiles-dir .
+          fi
+        env:
+          snowflake_username: $(snowflake_username)
+          snowflake_password: $(snowflake_password)
+          snowflake_account: $(snowflake_account)
+          CONNECTION_STRING: $(CONNECTION_STRING)
+        displayName: 'Get the current dbt state'
+      - script: |
+          export TOP_DIR=$(git rev-parse --show-toplevel)
+          cd ${TOP_DIR}/transform/adventureworks
+
+          if [[ -f manifest.json ]]; then
+            dbt run --target dev --profiles-dir . --select state:modified+ --state ./
+            dbt run --target preprod --profiles-dir . --select state:modified+ --state ./
+          else
+            dbt run --target dev --profiles-dir .
+            dbt run --target preprod --profiles-dir .
+          fi
+        env:
+          CONNECTION_STRING: $(CONNECTION_STRING)
+          snowflake_username: $(snowflake_username)
+          snowflake_password: $(snowflake_password)
+          snowflake_account: $(snowflake_account)
+        displayName: 'Perform dbt runs on the dev and preprod envs'

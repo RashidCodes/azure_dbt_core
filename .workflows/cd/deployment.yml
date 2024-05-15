@@ -1,0 +1,85 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+name: 'Deploy container app job'
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: '8942520e-d3c7-4ef1-9fd6-c01b1ee990a1'
+  imageRepository: 'midrangepullup'
+  containerRegistry: 'midrangepullup.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/transform/Dockerfile'
+  tag: '$(Build.BuildId)'
+  container_app_job_name: 'midrangepullup'
+  container_app_job_env_name: 'new-environment'
+  container_app_job_rg: 'new_rg'
+  pip_download_dir: $(Pipeline.Workspace)/.pip
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  
+pool:
+  vmImage: $(vmImageName)
+
+
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+  - job: Publish
+    displayName: Publish
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - script: |
+        bash .workflows/bin/publish_dbt_artifacts.sh
+      env:
+        CONNECTION_STRING: $(CONNECTION_STRING)
+        snowflake_username: $(snowflake_username)
+        snowflake_password: $(snowflake_password)
+        snowflake_account: $(snowflake_account)
+      displayName: 'Publish dbt artifacts'
+
+- stage: Deploy
+  displayName: Deploy
+  jobs:
+  - job: Deploy
+    steps:
+    - script: |
+        bash .workflows/bin/deploy_container_app_job.sh
+      env:
+        SNOWFLAKE_USERNAME: $(snowflake_username)
+        SNOWFLAKE_PASSWORD: $(snowflake_password)
+        SNOWFLAKE_ACCOUNT: $(snowflake_account)
+        CONTAINER_APP_JOB_NAME: $(container_app_job_name)
+        CONTAINER_APP_JOB_RG: $(container_app_job_rg)
+        CONTAINER_APP_JOB_ENV_NAME: $(container_app_job_env_name)
+        CONTAINER_REGISTRY: $(containerRegistry)
+        REGISTRY_USER: $(REGISTRY_USER)
+        REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
+        IMAGE_NAME: $(imageRepository)
+        VERSION: $(tag)
+      displayName: 'Create a dbt job run in an azure container app'

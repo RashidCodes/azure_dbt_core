@@ -1,0 +1,14 @@
+{
+    "python.linting.enabled": true,
+    "python.defaultFormatter": "black",
+    "python.defaultInterpreterPath": "/Users/kingmoh/opt/anaconda3/envs/py-etl/bin/python",
+    "files.trimFinalNewlines": false,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": false,
+    "workbench.colorCustomizations": {
+        "editorLineNumber.foreground": "#fff"
+    },
+    // Controls the font size.
+    "editor.fontSize": 13,
+    "terminal.integrated.fontSize": 13
+}

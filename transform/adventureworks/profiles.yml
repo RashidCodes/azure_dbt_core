@@ -1,0 +1,39 @@
+adventureworks:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: '{{ env_var("snowflake_account") }}'
+      user: '{{ env_var("snowflake_username") }}'
+      password: '{{ env_var("snowflake_password") }}'
+      database: feature_20242804_db_cicd
+      role: accountadmin
+      warehouse: compute_etl
+      schema: raw
+      threads: 32
+      client_session_keep_alive: False
+
+    preprod:
+      type: snowflake
+      account: '{{ env_var("snowflake_account") }}'
+      user: '{{ env_var("snowflake_username") }}'
+      password: '{{ env_var("snowflake_password") }}'
+      database: adventureworks_preprod
+      role: accountadmin
+      warehouse: compute_etl
+      schema: raw
+      threads: 32
+      client_session_keep_alive: False
+
+    prod:
+      type: snowflake
+      account: '{{ env_var("snowflake_account") }}'
+      user: '{{ env_var("snowflake_username") }}'
+      password: '{{ env_var("snowflake_password") }}'
+      database: adventureworks
+      role: accountadmin
+      warehouse: compute_etl
+      schema: raw
+      threads: 32
+      client_session_keep_alive: False
+
