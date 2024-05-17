@@ -68,11 +68,11 @@ stages:
 
           if [[ $? -eq 0 ]];
           then
-              echo "##[debug] Successfully retrieved manifest";
-              exit 0;
+            echo "##[debug] Successfully retrieved manifest";
+            exit 0;
           else
-              echo "##[error] An error occurred while retrieving manifest";
-              exit 1;
+            echo "##[error] An error occurred while retrieving manifest";
+            exit 1;
           fi
 
           echo "##[debug] Installing python dependencies"
