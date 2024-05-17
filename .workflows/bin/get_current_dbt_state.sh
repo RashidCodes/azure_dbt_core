@@ -16,8 +16,9 @@ az storage blob download \
 
 if [[ $? -eq 0 ]];
 then
-    echo "Successfully retrieved manifest";
+    echo "##[debug] Successfully retrieved manifest";
     exit 0;
 else
+    echo "##[error] An error occurred while retrieving manifest;
     exit 1;
 fi
