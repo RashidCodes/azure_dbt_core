@@ -25,9 +25,9 @@ resource "azuread_service_principal" "dbt_service_principal" {
 
 # get the attributes of the contributor role defintion
 # TODO: Use a role on the containerapp job level
-# data "azurerm_role_definition" "contributor" {
-#   name = "Contributor"
-# }
+data "azurerm_role_definition" "contributor" {
+  name = "Contributor"
+}
 
 # Perhaps
 data "azurerm_role_definition" "reader" {
