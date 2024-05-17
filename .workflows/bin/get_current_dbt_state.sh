@@ -12,7 +12,7 @@ az storage blob download \
     --connection-string $CONNECTION_STRING \
     --name manifest.json \
     --container-name dbtdocs \
-    --account-name sampledbtprojstorageacc;
+    --account-name sampledbtprojstorageacc
 
 echo "something ${?}"
 
@@ -21,6 +21,6 @@ then
     echo "##[debug] Successfully retrieved manifest";
     exit 0;
 else
-    echo "##[error] An error occurred while retrieving manifest;
+    echo "##[error] An error occurred while retrieving manifest";
     exit 1;
 fi
