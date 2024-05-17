@@ -66,6 +66,15 @@ stages:
           echo "##[debug] Retrieve the current state of the dbt project"
           bash .workflows/bin/get_current_dbt_state.sh
 
+          if [[ $? -eq 0 ]];
+          then
+              echo "##[debug] Successfully retrieved manifest";
+              exit 0;
+          else
+              echo "##[error] An error occurred while retrieving manifest";
+              exit 1;
+          fi
+
           echo "##[debug] Installing python dependencies"
           export TOP_DIR=$(git rev-parse --show-toplevel)
           pip install -r ${TOP_DIR}/transform/requirements.txt --no-index --find-links=$(pip_download_dir)
