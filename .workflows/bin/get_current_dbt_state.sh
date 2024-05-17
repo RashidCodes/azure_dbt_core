@@ -14,9 +14,10 @@ az storage blob download \
     --container-name dbtdocs \
     --account-name sampledbtprojstorageacc;
 
-if [[ $? -eq 0 ]]
+if [[ $? -eq 0 ]];
 then
     echo "Successfully retrieved manifest";
     exit 0;
 else
     exit 1;
+fi
