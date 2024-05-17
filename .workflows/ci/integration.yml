@@ -51,8 +51,8 @@ stages:
 - stage: dbt_checks
   displayName: DBT Checks
   jobs:
-    - job: install_requirements
-      displayName: Install python requirements
+    - job: run_dbt_checks
+      displayName: Run dbt checks
       pool:
         vmImage: $(vmImageName)
       steps:

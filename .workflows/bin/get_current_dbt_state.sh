@@ -12,4 +12,11 @@ az storage blob download \
     --connection-string $CONNECTION_STRING \
     --name manifest.json \
     --container-name dbtdocs \
-    --account-name sampledbtprojstorageacc
+    --account-name sampledbtprojstorageacc;
+
+if [[ $? -eq 0 ]]
+then
+    echo "Successfully retrieved manifest";
+    exit 0;
+else
+    exit 1;
