@@ -69,10 +69,8 @@ stages:
           if [[ $? -eq 0 ]];
           then
             echo "##[debug] Successfully retrieved manifest";
-            exit 0;
           else
-            echo "##[error] An error occurred while retrieving manifest";
-            exit 1;
+            echo "##[warning] An error occurred while retrieving manifest";
           fi
 
           echo "##[debug] Installing python dependencies"
@@ -85,8 +83,10 @@ stages:
           dbt debug --target dev --profiles-dir .
 
           if [[ -f manifest.json ]]; then
+            echo "##[debug] Testing with state diff"
             dbt test --target dev --profiles-dir . --select state:modified+ --state ./
           else
+            echo "##[warning] Performing full test"
             dbt test --target dev --profiles-dir .
           fi
         env:
@@ -100,9 +100,11 @@ stages:
           cd ${TOP_DIR}/transform/adventureworks
 
           if [[ -f manifest.json ]]; then
+            echo "##[debug] Running with state diff"
             dbt run --target dev --profiles-dir . --select state:modified+ --state ./
             dbt run --target preprod --profiles-dir . --select state:modified+ --state ./
           else
+            echo "##[warning] Performing full run"
             dbt run --target dev --profiles-dir .
             dbt run --target preprod --profiles-dir .
           fi

@@ -10,3 +10,6 @@ Automated tools that use Azure services should always have restricted permission
 https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-service-principal
 
 https://learn.microsoft.com/en-us/cli/azure/azure-cli-sp-tutorial-1?tabs=bash
+
+## Logging commands
+https://learn.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash
