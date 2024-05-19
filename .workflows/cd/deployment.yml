@@ -61,6 +61,9 @@ stages:
         SNOWFLAKE_USERNAME: $(SNOWFLAKE_USERNAME)
         SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
         SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
+        SP_USER: $(SP_USER)
+        SP_PASS: $(SP_PASS)
+        TENANT_ID: $(TENANT_ID)
       displayName: 'Publish dbt artifacts'
 
 - stage: Deploy
@@ -80,6 +83,9 @@ stages:
         CONTAINER_REGISTRY: $(containerRegistry)
         REGISTRY_USER: $(REGISTRY_USER)
         REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
+        SP_USER: $(SP_USER)
+        SP_PASS: $(SP_PASS)
+        TENANT_ID: $(TENANT_ID)
         IMAGE_NAME: $(imageRepository)
         VERSION: $(tag)
       displayName: 'Create a dbt job run in an azure container app'

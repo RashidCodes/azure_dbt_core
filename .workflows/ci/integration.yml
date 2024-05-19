@@ -85,6 +85,9 @@ stages:
           SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
           SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
           CONNECTION_STRING: $(CONNECTION_STRING)
+          SP_USER: $(SP_USER)
+          SP_PASS: $(SP_PASS)
+          TENANT_ID: $(TENANT_ID)
         displayName: 'Get the current dbt state'
       - script: |
           export TOP_DIR=$(git rev-parse --show-toplevel)

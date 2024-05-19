@@ -23,6 +23,8 @@ cp target/catalog.json public/
 cp target/manifest.json public/
 cp target/run_results.json public/
 
+# Upload dbt artifacts
+az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TENANT_ID}
 az storage blob upload-batch \
  --destination dbtdocs \
  --connection-string ${CONNECTION_STRING} \
