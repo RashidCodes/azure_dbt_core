@@ -3,9 +3,9 @@ adventureworks:
   outputs:
     dev:
       type: snowflake
-      account: '{{ env_var("snowflake_account") }}'
-      user: '{{ env_var("snowflake_username") }}'
-      password: '{{ env_var("snowflake_password") }}'
+      account: '{{ env_var("SNOWFLAKE_ACCOUNT") }}'
+      user: '{{ env_var("SNOWFLAKE_USERNAME") }}'
+      password: '{{ env_var("SNOWFLAKE_PASSWORD") }}'
       database: feature_20242804_db_cicd
       role: accountadmin
       warehouse: compute_etl
@@ -15,9 +15,9 @@ adventureworks:
 
     preprod:
       type: snowflake
-      account: '{{ env_var("snowflake_account") }}'
-      user: '{{ env_var("snowflake_username") }}'
-      password: '{{ env_var("snowflake_password") }}'
+      account: '{{ env_var("SNOWFLAKE_ACCOUNT") }}'
+      user: '{{ env_var("SNOWFLAKE_USERNAME") }}'
+      password: '{{ env_var("SNOWFLAKE_PASSWORD") }}'
       database: adventureworks_preprod
       role: accountadmin
       warehouse: compute_etl
@@ -27,9 +27,9 @@ adventureworks:
 
     prod:
       type: snowflake
-      account: '{{ env_var("snowflake_account") }}'
-      user: '{{ env_var("snowflake_username") }}'
-      password: '{{ env_var("snowflake_password") }}'
+      account: '{{ env_var("SNOWFLAKE_ACCOUNT") }}'
+      user: '{{ env_var("SNOWFLAKE_USERNAME") }}'
+      password: '{{ env_var("SNOWFLAKE_PASSWORD") }}'
       database: adventureworks
       role: accountadmin
       warehouse: compute_etl

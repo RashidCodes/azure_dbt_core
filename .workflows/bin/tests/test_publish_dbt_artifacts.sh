@@ -29,5 +29,4 @@ az storage blob upload-batch \
  --source public \
  --overwrite true
 
-# clean up
 rm -rf public

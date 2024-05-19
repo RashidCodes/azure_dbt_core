@@ -19,24 +19,37 @@ data "azurerm_role_definition" "contributor" {
   name = "Contributor"
 }
 
-# get the attributes of the new_rg resource group
-data "azurerm_resource_group" "new_rg" {
-  name = azurerm_resource_group.new_rg.name
+data "azurerm_role_definition" "storage_blob_data_contributor"{
+  name = "Storage Blob Data Contributor"
 }
 
-# get the attributes of the dbt_core_rg resource group
-data "azurerm_resource_group" "dbt_core_rg" {
-  name = azurerm_resource_group.dbt_core_rg.name
+data "azurerm_storage_account" "dbt_storage_acc" {
+  name                = "sampledbtprojstorageacc"
+  resource_group_name = "dbt_core_rg"
 }
 
-resource "azurerm_role_assignment" "dbt_role_assignment" {
-  scope              = data.azurerm_resource_group.dbt_core_rg.id
-  role_definition_id = "${data.azurerm_resource_group.dbt_core_rg.id}${data.azurerm_role_definition.contributor.id}"
+data "azurerm_container_app_environment" "new_environment" {
+  name                = "new-environment"
+  resource_group_name = "new_rg"
+}
+
+# SP is assigned the contributor role on the container app
+resource "azurerm_role_assignment" "dbt_containerapp_role_assignment" {
+  scope              = var.CONTAINERAPP_JOB_SCOPE
+  role_definition_id = "${var.CONTAINERAPP_JOB_SCOPE}${data.azurerm_role_definition.contributor.id}"
   principal_id       = azuread_service_principal.dbt_service_principal.object_id
 }
 
-resource "azurerm_role_assignment" "new_rg_role_assignment" {
-  scope              = data.azurerm_resource_group.new_rg.id
-  role_definition_id = "${data.azurerm_resource_group.new_rg.id}${data.azurerm_role_definition.contributor.id}"
+# SP is assigned the storage blob data contributor role on the storage account
+resource "azurerm_role_assignment" "dbt_storage_acc_role_assignment" {
+  scope              = "${data.azurerm_storage_account.dbt_storage_acc.id}"
+  role_definition_id = "${data.azurerm_storage_account.dbt_storage_acc.id}${data.azurerm_role_definition.storage_blob_data_contributor.id}"
+  principal_id       = azuread_service_principal.dbt_service_principal.object_id
+}
+
+# SP is assigned the contributor role on the containerapp environment
+resource "azurerm_role_assignment" "dbt_containerapp_environment_role_assignment" {
+  scope              = "${data.azurerm_container_app_environment.new_environment.id}"
+  role_definition_id = "${data.azurerm_container_app_environment.new_environment.id}${data.azurerm_role_definition.contributor.id}"
   principal_id       = azuread_service_principal.dbt_service_principal.object_id
 }

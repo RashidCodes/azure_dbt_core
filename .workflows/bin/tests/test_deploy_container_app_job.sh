@@ -1,12 +1,13 @@
-#!/bin/bash
+#!/bin/bash 
 
 # secrets
-snowflake_account="snowflake-account=${SNOWFLAKE_ACCOUNT}"
-snowflake_username="snowflake-username=${SNOWFLAKE_USERNAME}"
-snowflake_password="snowflake-password=${SNOWFLAKE_PASSWORD}"
+snowflake_account="snowflake-account=${snowflake_username}"
+snowflake_username="snowflake-username=${snowflake_password}"
+snowflake_password="snowflake-password=${snowflake_account}"
 
-# Login to az 
-az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TF_VAR_TENANT_ID};
+# TODO: Try logging in as the SP to create a containerapp job
+# Login to az
+az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TENANT_ID};
 
 # Create container app job
 az containerapp job create \
