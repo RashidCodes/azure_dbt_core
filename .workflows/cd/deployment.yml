@@ -21,7 +21,6 @@ variables:
   container_app_job_name: 'midrangepullup'
   container_app_job_env_name: 'new-environment'
   container_app_job_rg: 'new_rg'
-  pip_download_dir: $(Pipeline.Workspace)/.pip
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -57,7 +56,7 @@ stages:
     - script: |
         # top level directory
         export TOP_DIR=$(git rev-parse --show-toplevel)
-        pip install -r ${TOP_DIR}/transform/requirements.txt --no-index --find-links=$(pip_download_dir)
+        pip install -r ${TOP_DIR}/transform/requirements.txt
 
         # change directory into the adventureworks dbt project
         cd ${TOP_DIR}/transform/adventureworks
