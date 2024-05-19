@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # secrets
-snowflake_account="snowflake-account=${SNOWFLAKE_ACCOUNT}"
-snowflake_username="snowflake-username=${SNOWFLAKE_USERNAME}"
-snowflake_password="snowflake-password=${SNOWFLAKE_PASSWORD}"
+SNOWFLAKE_ACCOUNT="snowflake-account=${SNOWFLAKE_ACCOUNT}"
+SNOWFLAKE_USERNAME="snowflake-username=${SNOWFLAKE_USERNAME}"
+SNOWFLAKE_PASSWORD="snowflake-password=${SNOWFLAKE_PASSWORD}"
 
 # Login to az 
 az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TENANT_ID};
@@ -18,5 +18,5 @@ az containerapp job create \
     --registry-server ${CONTAINER_REGISTRY} \
     --registry-username ${REGISTRY_USER} \
     --registry-password ${REGISTRY_PASSWORD} \
-    --secrets ${snowflake_account} ${snowflake_username} ${snowflake_password}  \
-    --env-vars 'snowflake_account=secretref:snowflake-account' 'snowflake_username=secretref:snowflake-username' 'snowflake_password=secretref:snowflake-password'\
+    --secrets ${SNOWFLAKE_ACCOUNT} ${SNOWFLAKE_USERNAME} ${SNOWFLAKE_PASSWORD}  \
+    --env-vars 'SNOWFLAKE_ACCOUNT=secretref:snowflake-account' 'SNOWFLAKE_USERNAME=secretref:snowflake-username' 'SNOWFLAKE_PASSWORD=secretref:snowflake-password'\
