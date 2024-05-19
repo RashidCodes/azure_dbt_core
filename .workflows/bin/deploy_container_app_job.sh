@@ -6,7 +6,7 @@ snowflake_username="snowflake-username=${SNOWFLAKE_USERNAME}"
 snowflake_password="snowflake-password=${SNOWFLAKE_PASSWORD}"
 
 # Login to az 
-az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TF_VAR_TENANT_ID};
+az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TENANT_ID};
 
 # Create container app job
 az containerapp job create \
