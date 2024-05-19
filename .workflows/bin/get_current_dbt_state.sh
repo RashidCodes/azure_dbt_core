@@ -7,7 +7,7 @@ export TOP_DIR=$(git rev-parse --show-toplevel)
 cd ${TOP_DIR}/transform/adventureworks
 
 # download the current state of our dbt project
-az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TF_VAR_TENANT_ID}
+az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TENANT_ID}
 
 az storage blob download \
     --file manifest.json \
