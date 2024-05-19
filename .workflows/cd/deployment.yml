@@ -84,15 +84,9 @@ stages:
         rm -rf public
       env:
         CONNECTION_STRING: $(CONNECTION_STRING)
-<<<<<<< Updated upstream
-        snowflake_username: $(snowflake_username)
-        snowflake_password: $(snowflake_password)
-        snowflake_account: $(snowflake_account)
-=======
         SNOWFLAKE_USERNAME: $(SNOWFLAKE_USERNAME)
         SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
         SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
->>>>>>> Stashed changes
       displayName: 'Publish dbt artifacts'
 
 - stage: Deploy
