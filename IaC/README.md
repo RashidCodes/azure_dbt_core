@@ -23,7 +23,7 @@ terraform destroy -auto-approve
 
 1. When a service is created with the `azurerm_resource_group_template_deployment` resource, the deployment gets stuck in the "creating" state even after the service has been successfully provisioned.
 
-    ![terraform run](./assets/terraform_run.png)
+    ![terraform run](./assets/run.png)
 
     ***Fig 1***: *Resource Group Deployment of a container job*
 

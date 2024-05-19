@@ -1,5 +1,5 @@
 # Run DBT Core on Azure with Containerapp Jobs
-In this project, I've created a basic framework that can be used to run dbt in your azure environment. The project serves as a starting point for stakeholders want to start using *dbt-core* in their environments.
+In this project, I've created a basic framework that can be used to run dbt in your azure environment. The project serves as a starting point for stakeholders that want to start using *dbt-core* in their environments.
 
 # Tools and languages
 - Azure Containerapp Jobs
