@@ -1,4 +1,5 @@
 # Run DBT Core on Azure with Containerapps
+In this project, I've a basic framework that can be used to run dbt in your azure environment. The project serves as a starting point for stakeholders that are looking to quickly use dbt-core in their environments.
 
 # Reference
 ## Improve the build time of build pipelines
