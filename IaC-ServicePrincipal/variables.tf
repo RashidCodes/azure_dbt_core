@@ -7,4 +7,3 @@ variable "CONTAINERAPP_JOB_SCOPE"{
    description = "containerapp job resource id"
    sensitive   = false
 }
-

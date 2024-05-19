@@ -5,6 +5,7 @@ data "azuread_client_config" "current" {}
 resource "azuread_application" "dbt" {
   display_name = "dbt"
   owners       = [data.azuread_client_config.current.object_id]
+  description  =  "An azure ad application that will be used to trigger containerapp jobs"
 }
 
 # create a service principal for the application
@@ -15,6 +16,7 @@ resource "azuread_service_principal" "dbt_service_principal" {
 }
 
 # get the attributes of the contributor role defintion
+# TODO: Use a role on the containerapp job level
 data "azurerm_role_definition" "contributor" {
   name = "Contributor"
 }

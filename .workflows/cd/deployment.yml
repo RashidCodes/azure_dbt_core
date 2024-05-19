@@ -35,7 +35,7 @@ stages:
   displayName: Build
   jobs:
   - job: Build
-    displayName: Build
+    displayName: Build and push to ACR
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -50,7 +50,7 @@ stages:
           $(tag)
 
   - job: Publish
-    displayName: Publish
+    displayName: Publish DBT Artifacts
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -87,25 +87,31 @@ stages:
         SNOWFLAKE_USERNAME: $(SNOWFLAKE_USERNAME)
         SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
         SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
+        SP_USER: $(SP_USER)
+        SP_PASS: $(SP_PASS)
+        TENANT_ID: $(TENANT_ID)
       displayName: 'Publish dbt artifacts'
 
 - stage: Deploy
-  displayName: Deploy
+  displayName: Deploy ContainerApp Job in Azure
   jobs:
   - job: Deploy
     steps:
     - script: |
         bash .workflows/bin/deploy_container_app_job.sh
       env:
-        SNOWFLAKE_USERNAME: $(snowflake_username)
-        SNOWFLAKE_PASSWORD: $(snowflake_password)
-        SNOWFLAKE_ACCOUNT: $(snowflake_account)
+        SNOWFLAKE_USERNAME: $(SNOWFLAKE_USERNAME)
+        SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
+        SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
         CONTAINER_APP_JOB_NAME: $(container_app_job_name)
         CONTAINER_APP_JOB_RG: $(container_app_job_rg)
         CONTAINER_APP_JOB_ENV_NAME: $(container_app_job_env_name)
         CONTAINER_REGISTRY: $(containerRegistry)
         REGISTRY_USER: $(REGISTRY_USER)
         REGISTRY_PASSWORD: $(REGISTRY_PASSWORD)
+        SP_USER: $(SP_USER)
+        SP_PASS: $(SP_PASS)
+        TENANT_ID: $(TENANT_ID)
         IMAGE_NAME: $(imageRepository)
         VERSION: $(tag)
       displayName: 'Create a dbt job run in an azure container app'
