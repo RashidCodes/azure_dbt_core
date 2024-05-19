@@ -19,29 +19,6 @@ data "azurerm_role_definition" "contributor" {
   name = "Contributor"
 }
 
-<<<<<<< Updated upstream
-# get the attributes of the new_rg resource group
-data "azurerm_resource_group" "new_rg" {
-  name = azurerm_resource_group.new_rg.name
-}
-
-# get the attributes of the dbt_core_rg resource group
-data "azurerm_resource_group" "dbt_core_rg" {
-  name = azurerm_resource_group.dbt_core_rg.name
-}
-
-resource "azurerm_role_assignment" "dbt_role_assignment" {
-  scope              = data.azurerm_resource_group.dbt_core_rg.id
-  role_definition_id = "${data.azurerm_resource_group.dbt_core_rg.id}${data.azurerm_role_definition.contributor.id}"
-  principal_id       = azuread_service_principal.dbt_service_principal.object_id
-}
-
-resource "azurerm_role_assignment" "new_rg_role_assignment" {
-  scope              = data.azurerm_resource_group.new_rg.id
-  role_definition_id = "${data.azurerm_resource_group.new_rg.id}${data.azurerm_role_definition.contributor.id}"
-  principal_id       = azuread_service_principal.dbt_service_principal.object_id
-}
-=======
 data "azurerm_role_definition" "storage_blob_data_contributor"{
   name = "Storage Blob Data Contributor"
 }
@@ -76,4 +53,3 @@ resource "azurerm_role_assignment" "dbt_containerapp_environment_role_assignment
   role_definition_id = "${data.azurerm_container_app_environment.new_environment.id}${data.azurerm_role_definition.contributor.id}"
   principal_id       = azuread_service_principal.dbt_service_principal.object_id
 }
->>>>>>> Stashed changes
