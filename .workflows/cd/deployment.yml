@@ -62,6 +62,7 @@ stages:
         cd ${TOP_DIR}/transform/adventureworks
 
         # generate docs
+        dbt deps
         dbt docs generate --target prod --profiles-dir .
 
         # get docs
