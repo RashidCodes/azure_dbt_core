@@ -57,7 +57,7 @@ stages:
     - script: |
         # top level directory
         export TOP_DIR=$(git rev-parse --show-toplevel)
-        pip install -r ${TOP_DIR}/transform/requirements.txt --no-index --find-links=$(pip_download_dir)
+        pip download -r ${TOP_DIR}/transform/requirements.txt --no-index --find-links=$(pip_download_dir)
 
         # change directory into the adventureworks dbt project
         cd ${TOP_DIR}/transform/adventureworks
