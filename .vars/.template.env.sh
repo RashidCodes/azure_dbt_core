@@ -9,11 +9,27 @@ export TF_VAR_SUBSCRIPTION_ID=""
 export TF_VAR_CONTAINERAPP_JOB_SCOPE=""
 
 # Snowflake Vars
-export snowflake_username=""
-export snowflake_password=""
-export snowflake_account=""
+export SNOWFLAKE_USERNAME=""
+export SNOWFLAKE_PASSWORD=""
+export SNOWFLAKE_ACCOUNT=""
 
 # ACR Vars
 export REGISTRY_USER=""
 export REGISTRY_PASSWORD=""
 export CONNECTION_STRING=""
+
+# Service Principals Vars
+export SP_USER=""
+export SP_PASS=""
+export TENANT_ID=""
+
+# Env vars for deployment pipeline testing
+export CONTAINER_APP_JOB_NAME=""
+export CONTAINER_APP_JOB_RG=""
+export CONTAINER_APP_JOB_ENV_NAME=""
+export CONTAINER_REGISTRY=""
+export IMAGE_NAME=""
+export VERSION=""
+export REGISTRY_USER=""
+export REGISTRY_PASSWORD=""
+

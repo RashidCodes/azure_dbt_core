@@ -3,7 +3,7 @@ variable "TENANT_ID" {
    sensitive   = true
 }
 
-variable "CONTAINERAPP_JOB_SCOPE" {
-   description = "The scope of the container app job"
-   sensitive = false
+variable "CONTAINERAPP_JOB_SCOPE"{
+   description = "containerapp job resource id"
+   sensitive   = false
 }

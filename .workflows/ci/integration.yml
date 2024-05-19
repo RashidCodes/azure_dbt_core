@@ -42,9 +42,9 @@ stages:
       - script: |
           bash .workflows/bin/linter.sh
         env:
-          snowflake_username: $(snowflake_username)
-          snowflake_password: $(snowflake_password)
-          snowflake_account: $(snowflake_account)
+          SNOWFLAKE_USERNAME: $(SNOWFLAKE_USERNAME)
+          SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
+          SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
           pip_download_dir: $(pip_download_dir)
         displayName: 'Perform linting checks'
 
@@ -90,10 +90,13 @@ stages:
             dbt test --target dev --profiles-dir .
           fi
         env:
-          snowflake_username: $(snowflake_username)
-          snowflake_password: $(snowflake_password)
-          snowflake_account: $(snowflake_account)
+          SNOWFLAKE_USERNAME: $(SNOWFLAKE_USERNAME)
+          SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
+          SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
           CONNECTION_STRING: $(CONNECTION_STRING)
+          SP_USER: $(SP_USER)
+          SP_PASS: $(SP_PASS)
+          TENANT_ID: $(TENANT_ID)
         displayName: 'Get the current dbt state'
       - script: |
           export TOP_DIR=$(git rev-parse --show-toplevel)
@@ -110,7 +113,7 @@ stages:
           fi
         env:
           CONNECTION_STRING: $(CONNECTION_STRING)
-          snowflake_username: $(snowflake_username)
-          snowflake_password: $(snowflake_password)
-          snowflake_account: $(snowflake_account)
+          SNOWFLAKE_USERNAME: $(SNOWFLAKE_USERNAME)
+          SNOWFLAKE_PASSWORD: $(SNOWFLAKE_PASSWORD)
+          SNOWFLAKE_ACCOUNT: $(SNOWFLAKE_ACCOUNT)
         displayName: 'Perform dbt runs on the dev and preprod envs'
