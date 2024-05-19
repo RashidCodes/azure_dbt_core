@@ -6,7 +6,7 @@ export TF_VAR_TENANT_ID=""
 export TF_VAR_CLIENT_ID=""
 export TF_VAR_CLIENT_SECRET=""
 export TF_VAR_SUBSCRIPTION_ID=""
-export TF_VAR_CONTAINERAPP_JOB_SCOPE="/subscriptions/7bc876fd-c9fc-4674-a3cd-115f28068bbb/resourceGroups/new_rg/providers/Microsoft.App/jobs/midrangepullup"
+export TF_VAR_CONTAINERAPP_JOB_SCOPE=""
 
 # Snowflake Vars
 export SNOWFLAKE_USERNAME=""

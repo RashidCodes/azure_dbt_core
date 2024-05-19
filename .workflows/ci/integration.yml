@@ -51,8 +51,8 @@ stages:
 - stage: dbt_checks
   displayName: DBT Checks
   jobs:
-    - job: install_requirements
-      displayName: Install python requirements
+    - job: run_dbt_checks
+      displayName: Run dbt checks
       pool:
         vmImage: $(vmImageName)
       steps:
@@ -66,6 +66,13 @@ stages:
           echo "##[debug] Retrieve the current state of the dbt project"
           bash .workflows/bin/get_current_dbt_state.sh
 
+          if [[ $? -eq 0 ]];
+          then
+            echo "##[debug] Successfully retrieved manifest";
+          else
+            echo "##[warning] An error occurred while retrieving manifest";
+          fi
+
           echo "##[debug] Installing python dependencies"
           export TOP_DIR=$(git rev-parse --show-toplevel)
           pip install -r ${TOP_DIR}/transform/requirements.txt --no-index --find-links=$(pip_download_dir)
@@ -76,8 +83,10 @@ stages:
           dbt debug --target dev --profiles-dir .
 
           if [[ -f manifest.json ]]; then
+            echo "##[debug] Testing with state diff"
             dbt test --target dev --profiles-dir . --select state:modified+ --state ./
           else
+            echo "##[warning] Performing full test"
             dbt test --target dev --profiles-dir .
           fi
         env:
@@ -94,9 +103,11 @@ stages:
           cd ${TOP_DIR}/transform/adventureworks
 
           if [[ -f manifest.json ]]; then
+            echo "##[debug] Running with state diff"
             dbt run --target dev --profiles-dir . --select state:modified+ --state ./
             dbt run --target preprod --profiles-dir . --select state:modified+ --state ./
           else
+            echo "##[warning] Performing full run"
             dbt run --target dev --profiles-dir .
             dbt run --target preprod --profiles-dir .
           fi

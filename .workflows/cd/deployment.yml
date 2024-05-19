@@ -50,7 +50,7 @@ stages:
           $(tag)
 
   - job: Publish
-    displayName: Publish
+    displayName: Publish DBT Artifacts
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -67,7 +67,7 @@ stages:
       displayName: 'Publish dbt artifacts'
 
 - stage: Deploy
-  displayName: Deploy
+  displayName: Deploy ContainerApp Job in Azure
   jobs:
   - job: Deploy
     steps:
