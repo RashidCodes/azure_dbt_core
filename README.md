@@ -249,7 +249,7 @@ Inspect dbt job runs in the log analytics workspace provisioned for the project 
 Logs in the analytics workspace can be queried with Microsoft's [*Kusto Query Language (KQL)*](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/).
 
 # Conclusion
-We now have a workflow that we can use to run dbt jobs in azure containerapps instead of dbt cloud. If you don't need all the bells and whistles that come with dbt cloud then I think you must explore other ways of running dbt jobs, such as Azure ContainerApps.
+We now have a workflow that we can use to run dbt jobs in azure containerapps instead of dbt cloud. If you don't need all the bells and whistles that come with dbt cloud then it's worth exploring other ways of running dbt jobs, such as Azure ContainerApps.
 
 # Clean up
 1. Delete the azure containerapp job in the portal.
