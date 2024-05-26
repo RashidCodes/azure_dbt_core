@@ -21,6 +21,10 @@ data "azurerm_role_definition" "contributor" {
   name = "Contributor"
 }
 
+data "azurerm_role_definition" "owner" {
+  name = "Owner"
+}
+
 data "azurerm_role_definition" "storage_blob_data_contributor"{
   name = "Storage Blob Data Contributor"
 }
@@ -38,7 +42,7 @@ data "azurerm_container_app_environment" "new_environment" {
 # SP is assigned the contributor role on the container app
 resource "azurerm_role_assignment" "dbt_containerapp_role_assignment" {
   scope              = var.CONTAINERAPP_JOB_SCOPE
-  role_definition_id = "${var.CONTAINERAPP_JOB_SCOPE}${data.azurerm_role_definition.contributor.id}"
+  role_definition_id = "${var.CONTAINERAPP_JOB_SCOPE}${data.azurerm_role_definition.owner.id}"
   principal_id       = azuread_service_principal.dbt_service_principal.object_id
 }
 
