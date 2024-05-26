@@ -137,19 +137,22 @@ This demo presumes you've provisioned an ACR and pushed an image called `midrang
 
     - We're modifying our readme. This means we can cancel both integration and deployment pipeline runs since no actual code change has been made. However for the purpose of this demo, we'll allow the pipelines to run when triggered.
 
-    <!-- ![Create a pull request](./IaC/assets/pr.png) -->
+    ![Create a pull request](./IaC/assets/pr.png)
 
 1. The creation of the PR triggers the *dbt_ci* pipeline. This is because we added the build validation.
 
-    <!-- ![Run build validation](./IaC/assets/run_build_validation.png) -->
+    ![Run build validation](./IaC/assets/run_build_validation.png)
 
 
-1. Once the checks pass, we can now merge to main.
+1. Once the checks pass, we can now merge to main. After merging to the main branch, the *dbt_cd* pipeline is triggered.
 
-    <!-- ![merge to main](./IaC/assets/approve_pr.png) -->
+    ![merge to main](./IaC/assets/approve_pr.png)
+
+1. Inspect the logs to make sure all tasks completed as expected. In the image below, even though the *Publish dbt artifacts* step completed successfully, the dbt artifacts were not published to the storage account because of an invalid connection string.
+
+    ![authentication error](./IaC/assets/auth_err.png)
 
 
-1. After merging to main, the *dbt_cd* pipeline is triggered. If the pipeline completes
 
 # References
 ## Improve the build time of build pipelines
