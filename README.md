@@ -176,7 +176,16 @@ As aforementioned, we need to create the containerapp job [manually](./.workflow
 
 1. If everything succeeded, we should see that our containerapp job has been modified in place. We should now be able to trigger the containerapp job via the azure management rest api. See [how to authenticate to the Azure Management REST API](#how-to-authenticate-to-the-azure-management-rest-api)
 
-# How to authenticate to the Azure Management REST API
+
+# Trigger a containerapp job
+In the following sections, we'll discuss how to trigger a containerapp job:
+
+1. [How to authenticate to the Azure Management REST API](#how-to-authenticate-to-the-azure-management-rest-api)
+1. [How to trigger a containerapp job](#how-to-trigger-a-containerapp-job-via-the-azure-management-rest-api)
+1. [How to check the status of a containerapp job run](#how-to-check-the-status-of-a-containerapp-job-run)
+1. [Inspect Job runs](#inspect-job-runs)
+
+## How to authenticate to the Azure Management REST API
 1. Open Microsoft Entra ID
 1. Under the *Manage* section on the left pane, click on *App Registrations*.
     ![app registration](./IaC/assets/app_registration.png)
@@ -188,13 +197,13 @@ As aforementioned, we need to create the containerapp job [manually](./.workflow
 1. Click on *New client secret*
 1. Copy the secret value.
 
-## Get an access token from the management api
+### Get an access token from the management api
 
 ![auth body](./IaC/assets/auth_body.png)
 
 To request an access token, make a `/POST` request to the following endpoint:
 ```text
-https://login.microsoftonline.com/c050436b-b0c5-4946-89fb-4fe7815bd2ff/oauth2/token
+https://login.microsoftonline.com/${tenant_id}/oauth2/token
 ```
 The payload must be urlencoded and it must contain the following keys/value pairs:
 
@@ -206,7 +215,7 @@ The payload must be urlencoded and it must contain the following keys/value pair
 | *resource* | `https://management.core.windows.net/`
 
 
-# Trigger a containerapp job via the Azure Management REST API
+# How to trigger a containerapp job via the Azure Management REST API
 A containerapp job can be triggered by making a `/POST` request to the following endpoint:
 
 ```text
@@ -218,7 +227,7 @@ Provide the access token in the *Authorization* header.
 ![trigger containerapp job](./IaC/assets/trigger_container_job.png)
 
 
-# Check the status of a container job run
+## How to check the status of a containerapp job run
 You can check the status of a containerapp job run by making a `/GET` request to the following endpoint.
 
 ```text
@@ -227,7 +236,7 @@ https://management.azure.com/subscriptions/${subscription_id}/resourceGroups/${r
 
 Provide the access token in the *Authorization* header.
 
-# Inspect Job runs
+## Inspect Job runs
 
 Inspect dbt job runs in the log analytics workspace provisioned for the project - *dbt-log-analytics-workspace*
 
@@ -256,7 +265,6 @@ https://stackoverflow.com/questions/62420695/how-to-cache-pip-packages-within-az
 
 ## Service Principals
 Automated tools that use Azure services should always have restricted permissions to ensure that Azure resources are secure. Therefore, instead of having applications sign in as a fully privileged user, Azure offers service principals. An Azure service principal is an identity created for use with applications, hosted services, and automated tools. This identity is used to access resources.
-
 
 https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-service-principal
 
