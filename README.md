@@ -22,7 +22,12 @@ The following resources are required to successfully run this project.
 3. A DBT Project
 
 ## Setting up our environment
-We'll learn how to set up our environment in the following sections
+We'll learn how to set up our environment in the following sections:
+
+1. [Provision Azure Resource](#provision-azure-resources)
+1. [Push code to Azure Devops](#push-your-code-to-azure-devops)
+1. [Create a service connection to ACR](#create-a-service-connection-to-acr)
+1. [Set up CICD pipelines](#set-up-cicd-pipelines)
 
 ### Provision Azure Resources
 
@@ -58,7 +63,7 @@ We'll learn how to set up our environment in the following sections
 
     ![provision resources](./IaC/assets/first_resources.png)
 
-1. Navigate to the *IaC-ServicePrincipal* directory to create a service principal and an enterprise application with terraform. See [reference](#service-principals) to learn about service principals. The service principal will be used to modify the azure containerapp jobs; we have to create it [manually](./.workflows/bin/deploy_container_app_job.sh) for the first time. The service principal will also be assigned to an application that will allow us to trigger containerapp jobs via the Azure Management REST API.
+1. Navigate to the *IaC-ServicePrincipal* directory to create a service principal and an enterprise application with terraform. See [reference](#service-principals) to learn about service principals. The service principal will be used to **modify** the azure containerapp jobs; we have to create it [manually](./.workflows/bin/deploy_container_app_job.sh) for the first time. The service principal will also be assigned to an application that will allow us to trigger containerapp jobs via the Azure Management REST API.
 
     ```bash
     # change dir
@@ -89,7 +94,7 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 
     ![service connection](./IaC/assets/service_connections.png)
 
-### CICD Pipelines
+### Set up CICD Pipelines
 
 ![cicd workflow](./IaC/assets/cicd.png)
 
