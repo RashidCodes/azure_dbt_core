@@ -35,12 +35,12 @@ data "azurerm_container_app_environment" "new_environment" {
   resource_group_name = "new_rg"
 }
 
-# SP is assigned the contributor role on the container app
-resource "azurerm_role_assignment" "dbt_containerapp_role_assignment" {
-  scope              = var.CONTAINERAPP_JOB_SCOPE
-  role_definition_id = "${var.CONTAINERAPP_JOB_SCOPE}${data.azurerm_role_definition.contributor.id}"
-  principal_id       = azuread_service_principal.dbt_service_principal.object_id
-}
+# # SP is assigned the contributor role on the container app
+# resource "azurerm_role_assignment" "dbt_containerapp_role_assignment" {
+#   scope              = var.CONTAINERAPP_JOB_SCOPE
+#   role_definition_id = "${var.CONTAINERAPP_JOB_SCOPE}${data.azurerm_role_definition.contributor.id}"
+#   principal_id       = azuread_service_principal.dbt_service_principal.object_id
+# }
 
 # SP is assigned the storage blob data contributor role on the storage account
 resource "azurerm_role_assignment" "dbt_storage_acc_role_assignment" {
