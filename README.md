@@ -128,11 +128,14 @@ To trigger the *dbt_ci* pipeline when a PR to the main branch is raised, add a b
 ![build validation](./IaC/assets/build_validation.png)
 
 ## Demo
+**IMPORTANT:**
+This demo presumes you've provisioned an ACR and pushed an image called `midrangepullup`.
+
+1. Make sure the environment variables for each pipeline have been updated.
+
 1. Create a PR. In this PR:
 
-    -   We're commenting out the part of the terraform config that assigns the *contributor* role on the container app job to the service principal. We'll uncomment this block later on.
-
-    - We're also adding several other assets like images and readmes.
+    - We're modifying our readme. This means we can cancel both integration and deployment pipeline runs since no actual code change has been made. However for the purpose of this demo, we'll allow the pipelines to run when triggered.
 
     <!-- ![Create a pull request](./IaC/assets/pr.png) -->
 
