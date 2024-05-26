@@ -58,7 +58,7 @@ We'll learn how to set up our environment in the following sections
 
     ![provision resources](./IaC/assets/first_resources.png)
 
-1. Navigate to the *IaC-ServicePrincipal* directory to create a service principal and an enterprise application with terraform. See [reference](#service-principals) to learn about service principals. The service principal will be used to create/modify the azure containerapp jobs. The service principal will also be assigned to an application that will allow us to trigger containerapp jobs via the Azure Management REST API.
+1. Navigate to the *IaC-ServicePrincipal* directory to create a service principal and an enterprise application with terraform. See [reference](#service-principals) to learn about service principals. The service principal will be used to modify the azure containerapp jobs; we have to create it [manually](./.workflows/bin/deploy_container_app_job.sh) for the first time. The service principal will also be assigned to an application that will allow us to trigger containerapp jobs via the Azure Management REST API.
 
     ```bash
     # change dir
@@ -74,6 +74,7 @@ We'll learn how to set up our environment in the following sections
 
 
 ### Push your code to Azure Devops
+
 1. Push your code to an azure devops repository.
     ![sample dbt project](./IaC/assets/sample_dbt_proj.png)
 
@@ -93,20 +94,21 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 ![cicd workflow](./IaC/assets/cicd.png)
 
 #### Workflow
+
 1. Developer raises a PR.
-1. We perform linting and dbt checks. See [integration.yml](./.workflows/ci/integration.yml)
-1. If all checks pass, then we deploy the changes to production. See [deployment.yml](./.workflows/cd/deployment.yml). The deployment involves the following:
+1. We perform linting and dbt checks. See [integration.yml](./.workflows/ci/integration.yml) for all checks.
+1. If all checks pass, then we can deploy the changes to production. See [deployment.yml](./.workflows/cd/deployment.yml). The deployment involves the following:
 
     - The creation of a new image.
-    - The creation/modification of the container app job to use the new image.
+    - The modification of the container app job to use the new image.
 
 #### Pipeline Creation
 1. In Azure Devops, create two pipelines namely:
 
-    - dbt_ci:
+    - dbt_ci
     - dbt_cd
 
-    The *dbt_ci* pipeline is created from the [integration.yml](./.workflows/ci/integration.yml) file whereas the *dbt_cd* pipeline is created from the [deployment.yml](./.workflows/cd/deployment.yml) file. Make sure to provide all the necessary environment variables if you have them available.
+    The *dbt_ci* pipeline is created from the [integration.yml](./.workflows/ci/integration.yml) file whereas the *dbt_cd* pipeline is created from the [deployment.yml](./.workflows/cd/deployment.yml) file. Make sure to provide all the necessary environment variables.
 
     ![pipelines](./IaC/assets/pipelines.png)
 
