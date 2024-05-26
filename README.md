@@ -74,7 +74,7 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 
     ![project settings](./IaC/assets/project_settings.png)
 
-1.  Click on service connections and create a new service connection. In this case, my service connection is called `midrangepullup`. Modify the [deployment.yml](./.workflows/cd/deployment.yml). At the time of development, I used the docker registry service *connection id* however you can also use the name of the service connection.
+1.  Click on service connections and create a new service connection. In this case, my service connection is called `midrangepullup`. You may need to modify the [deployment.yml](./.workflows/cd/deployment.yml). At the time of development, I used the docker registry service *connection id* however you can also use the name of the service connection.
 
     ![service connection](./IaC/assets/service_connections.png)
 
@@ -92,6 +92,7 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 
 ### Pipeline Creation
 1. In Azure Devops, create two pipelines namely:
+
     - dbt_ci:
     - dbt_cd
 
@@ -125,6 +126,27 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 To trigger the *dbt_ci* pipeline when a PR to the main branch is raised, add a build validation policy on the main branch.
 
 ![build validation](./IaC/assets/build_validation.png)
+
+## Demo
+1. Create a PR. In this PR:
+
+    -   We're commenting out the part of the terraform config that assigns the *contributor* role on the container app job to the service principal. We'll uncomment this block later on.
+
+    - We're also adding several other assets like images and readmes.
+
+    <!-- ![Create a pull request](./IaC/assets/pr.png) -->
+
+1. The creation of the PR triggers the *dbt_ci* pipeline. This is because we added the build validation.
+
+    <!-- ![Run build validation](./IaC/assets/run_build_validation.png) -->
+
+
+1. Once the checks pass, we can now merge to main.
+
+    <!-- ![merge to main](./IaC/assets/approve_pr.png) -->
+
+
+1. After merging to main, the *dbt_cd* pipeline is triggered. If the pipeline completes
 
 # References
 ## Improve the build time of build pipelines
