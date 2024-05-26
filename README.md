@@ -1,5 +1,5 @@
 # Run DBT Core on Azure with Containerapp Jobs
-In this project, I've created a basic framework that can be used to run dbt in your azure environment. The project serves as a starting point for stakeholders that want to start using *dbt-core* in their environments. **Terraform** is used to manage the resources used in this project. **Snowflake** is used as the platform for data warehousing.
+In this project, I've created a basic framework that can be used to run [dbt](https://docs.getdbt.com/) in your azure environment. The project serves as a starting point for stakeholders that want to start using *dbt-core* in their environments. **Terraform** is used to manage the resources used in this project. **Snowflake** is used as the platform for data warehousing.
 
 # Tools and languages
 - Azure Containerapp Jobs
@@ -10,10 +10,10 @@ In this project, I've created a basic framework that can be used to run dbt in y
 - Terraform (not required)
 
 # How to run the project
-## Prerequisite
+## Prerequisites
 1. Azure Subscription
 2. Azure Devops account
-3. A dbt project
+3. A DBT Project
 
 ## Provision Azure Resources
 1. Open a terminal session and log into your subscription with the [`az cli`](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
@@ -48,7 +48,8 @@ In this project, I've created a basic framework that can be used to run dbt in y
 
     ![provision resources](./IaC/assets/first_resources.png)
 
-1. Navigate to the *IaC-ServicePrincipal* directory to create a service principal and an enterprise application with terraform. See [reference](#service-principals) to learn about service principals.
+1. Navigate to the *IaC-ServicePrincipal* directory to create a service principal and an enterprise application with terraform. See [reference](#service-principals) to learn about service principals. The service principal will be used to create/modify the azure containerapp jobs. The service principal will also be assigned to an application that will allow us to trigger containerapp jobs via the Azure Management REST API.
+
     ```bash
     # change dir
     cd ../IaC-ServicePrincipal
@@ -125,7 +126,7 @@ To trigger the *dbt_ci* pipeline when a PR to the main branch is raised, add a b
 
 ![build validation](./IaC/assets/build_validation.png)
 
-# Reference
+# References
 ## Improve the build time of build pipelines
 https://stackoverflow.com/questions/62420695/how-to-cache-pip-packages-within-azure-pipelines
 
