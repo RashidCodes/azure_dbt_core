@@ -157,9 +157,12 @@ This demo presumes you've provisioned an ACR and pushed an image called `midrang
 # How to authenticate to the Azure Management REST API
 1. Open Microsoft Entra ID
 1. Under the *Manage* section on the left pain, click on *App Registrations*.
+    ![app registration](./IaC/assets/app_registration.png)
 1. Click on *dbt*
-1. Click on *Overview* and copy the *Application ID*
+1. Click on *Overview* and copy and save the *Application ID*
+    ![overview](./IaC/assets/overview.png)
 1. Click on *Certificates & secrets*
+    ![certs and secrets](./IaC/assets/certs_and_secrets.png)
 1. Click on *New client secret*
 1. Copy the secret value.
 
@@ -171,7 +174,7 @@ To request an access token, make a `/POST` request to the following endpoint:
 ```text
 https://login.microsoftonline.com/c050436b-b0c5-4946-89fb-4fe7815bd2ff/oauth2/token
 ```
-The payload must be urlencoded and it should the following keys:
+The payload must be urlencoded and it must contain the following keys/value pairs:
 
 | key | value
 | ----|---------
@@ -197,10 +200,21 @@ Provide the access token in the *Authorization* header.
 You can check the status of a containerapp job run by making a `/GET` request to the following endpoint.
 
 ```text
-https://management.azure.com/subscriptions/{subscription_id}/resourceGroups/${resource_group}/providers/Microsoft.App/jobs/${containerapp_job_name}/executions/${containerapp_job_execution_name}?api-version=2023-11-02-preview
+https://management.azure.com/subscriptions/${subscription_id}/resourceGroups/${resource_group}/providers/Microsoft.App/jobs/${containerapp_job_name}/executions/${containerapp_job_execution_name}?api-version=2023-11-02-preview
 ```
 
 Provide the access token in the *Authorization* header.
+
+# Inspect Job runs
+
+Inspect dbt job runs in the log analytics workspace provisioned for the project - *dbt-log-analytics-workspace*
+
+![job runs](./IaC/assets/job_runs.png)
+
+Logs in the analytics workspace can be queried with Microsoft's [*Kusto Query Language (KQL)*](https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/).
+
+# Conclusion
+We now have a workflow that we can use to run dbt jobs in azure containerapps instead of dbt cloud. If you don't need all the bells and whistles that come with dbt cloud then I think you must explore other ways of running dbt jobs, such as Azure ContainerApps.
 
 # References
 ## Improve the build time of build pipelines
