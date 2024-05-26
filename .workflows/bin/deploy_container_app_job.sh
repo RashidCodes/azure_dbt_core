@@ -6,7 +6,11 @@ SNOWFLAKE_USERNAME="snowflake-username=${SNOWFLAKE_USERNAME}"
 SNOWFLAKE_PASSWORD="snowflake-password=${SNOWFLAKE_PASSWORD}"
 
 # Login to az 
-az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TENANT_ID};
+if [[ -z "${TF_BUILD}" ]];then
+    az login
+else
+    az login --service-principal -u ${SP_USER} -p ${SP_PASS} --tenant ${TENANT_ID};
+fi
 
 # Create container app job
 az containerapp job create \
