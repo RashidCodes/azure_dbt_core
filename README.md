@@ -90,7 +90,7 @@ We'll learn how to set up our environment in the following sections:
 ### Create a service connection to ACR
 One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.yml) pipeline is a container image. This is accomplished in azure devops using a [service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml). Use the steps below to create a service connection to your ACR.
 
-1. Click on *Project Settings* at the bottom right of your screen.
+1. Click on *Project Settings* at the bottom left of your screen.
 
     ![project settings](./IaC/assets/project_settings.png)
 
