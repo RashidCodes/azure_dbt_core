@@ -219,7 +219,7 @@ The payload must be urlencoded and it must contain the following keys/value pair
 | *resource* | `https://management.core.windows.net/`
 
 
-# How to trigger a containerapp job via the Azure Management REST API
+## How to trigger a containerapp job via the Azure Management REST API
 A containerapp job can be triggered by making a `/POST` request to the following endpoint:
 
 ```text
