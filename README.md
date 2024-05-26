@@ -252,7 +252,7 @@ Logs in the analytics workspace can be queried with Microsoft's [*Kusto Query La
 We now have a workflow that we can use to run dbt jobs in azure containerapps instead of dbt cloud. If you don't need all the bells and whistles that come with dbt cloud then it's worth exploring other ways of running dbt jobs, such as Azure ContainerApps.
 
 # Clean up
-1. Delete the azure containerapp job in the portal.
+1. Delete the azure containerapp job in the portal because it's not managed using terraform.
 
 1. Use the script below to deprovision the rest of the resources.
     ```bash
