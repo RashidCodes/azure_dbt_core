@@ -14,12 +14,16 @@ In this project, I've created a basic framework that can be used to run [dbt](ht
 ## IaC
 - Terraform (not required)
 
+## Warehouse
+- Snowflake
+
 # How to run the project
 ## Prerequisites
 The following resources are required to successfully run this project.
 1. Azure Subscription
 2. Azure Devops account
 3. A DBT Project
+1. A [snowflake](https://signup.snowflake.com/?utm_cta=trial-en-www-homepage-top-right-nav-ss-evg&_ga=2.188006381.475331465.1716734919-206253400.1693358099&_fsi=6AsHo2Wc) account
 
 ## Setting up our environment
 We'll learn how to set up our environment in the following sections:
