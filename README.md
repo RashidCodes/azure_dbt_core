@@ -110,8 +110,8 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 #### Pipeline Creation
 1. In Azure Devops, create two pipelines namely:
 
-    - dbt_ci
-    - dbt_cd
+    - *dbt_ci*
+    - *dbt_cd*
 
     The *dbt_ci* pipeline is created from the [integration.yml](./.workflows/ci/integration.yml) file whereas the *dbt_cd* pipeline is created from the [deployment.yml](./.workflows/cd/deployment.yml) file. Make sure to provide all the necessary environment variables.
 
@@ -145,9 +145,14 @@ To trigger the *dbt_ci* pipeline when a PR to the main branch is raised, add a b
 ![build validation](./IaC/assets/build_validation.png)
 
 ## Demo
-**IMPORTANT:**
-This demo presumes you've provisioned an ACR and pushed an image called `midrangepullup`.
+### Presumptions
+As aforementioned, we need to create the containerapp job [manually](./.workflows/bin/deploy_container_app_job.sh) for the first time.
 
+1. An ACR has been provisioned
+1. An image called *midrangepullup* has been pushed to the ACR.
+1. A containerapp job called *midrangepullup* has been created with [*deploy_container_app_job.sh*](./.workflows/bin/deploy_container_app_job.sh)
+
+### Workflow Demo
 1. Make sure the environment variables for each pipeline have been updated.
 
 1. Create a PR. In this PR:
@@ -173,7 +178,7 @@ This demo presumes you've provisioned an ACR and pushed an image called `midrang
 
 # How to authenticate to the Azure Management REST API
 1. Open Microsoft Entra ID
-1. Under the *Manage* section on the left pain, click on *App Registrations*.
+1. Under the *Manage* section on the left pane, click on *App Registrations*.
     ![app registration](./IaC/assets/app_registration.png)
 1. Click on *dbt*
 1. Click on *Overview* and copy and save the *Application ID*
