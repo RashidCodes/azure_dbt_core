@@ -152,7 +152,55 @@ This demo presumes you've provisioned an ACR and pushed an image called `midrang
 
     ![authentication error](./IaC/assets/auth_err.png)
 
+1. If everything succeeded, we should see that our containerapp job has been modified in place. We should now be able to trigger the containerapp job via the azure management rest api. See [how to authenticate to the Azure Management REST API](#how-to-authenticate-to-the-azure-management-rest-api)
 
+# How to authenticate to the Azure Management REST API
+1. Open Microsoft Entra ID
+1. Under the *Manage* section on the left pain, click on *App Registrations*.
+1. Click on *dbt*
+1. Click on *Overview* and copy the *Application ID*
+1. Click on *Certificates & secrets*
+1. Click on *New client secret*
+1. Copy the secret value.
+
+## Get an access token from the management api
+
+![auth body](./IaC/assets/auth_body.png)
+
+To request an access token, make a `/POST` request to the following endpoint:
+```text
+https://login.microsoftonline.com/c050436b-b0c5-4946-89fb-4fe7815bd2ff/oauth2/token
+```
+The payload must be urlencoded and it should the following keys:
+
+| key | value
+| ----|---------
+| *grant_type* | `client_credentials`
+| *client_id* | `<application_id>`
+| *client_secret* | `<client_secret>`
+| *resource* | `https://management.core.windows.net/`
+
+
+# Trigger a containerapp job via the Azure Management REST API
+A containerapp job can be triggered by making a `/POST` request to the following endpoint:
+
+```text
+https://management.azure.com/subscriptions/${subscription_id}/resourceGroups/${resource_group}/providers/Microsoft.App/jobs/${containerapp_job_name}/start?api-version=2023-11-02-preview
+```
+
+Provide the access token in the *Authorization* header.
+
+![trigger containerapp job](./IaC/assets/trigger_container_job.png)
+
+
+# Check the status of a container job run
+You can check the status of a containerapp job run by making a `/GET` request to the following endpoint.
+
+```text
+https://management.azure.com/subscriptions/{subscription_id}/resourceGroups/${resource_group}/providers/Microsoft.App/jobs/${containerapp_job_name}/executions/${containerapp_job_execution_name}?api-version=2023-11-02-preview
+```
+
+Provide the access token in the *Authorization* header.
 
 # References
 ## Improve the build time of build pipelines
