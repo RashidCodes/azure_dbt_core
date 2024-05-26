@@ -1,21 +1,31 @@
 # Run DBT Core on Azure with Containerapp Jobs
 In this project, I've created a basic framework that can be used to run [dbt](https://docs.getdbt.com/) in your azure environment. The project serves as a starting point for stakeholders that want to start using *dbt-core* in their environments. **Terraform** is used to manage the resources used in this project. **Snowflake** is used as the platform for data warehousing.
 
-# Tools and languages
+# Tools
+## Azure Resources
 - Azure Containerapp Jobs
 - Azure Blob Storage
 - Azure Container Registry
 - Azure Devops
+
+## Scripting
 - Bash
+
+## IaC
 - Terraform (not required)
 
 # How to run the project
 ## Prerequisites
+The following resources are required to successfully run this project.
 1. Azure Subscription
 2. Azure Devops account
 3. A DBT Project
 
-## Provision Azure Resources
+## Setting up our environment
+We'll learn how to set up our environment in the following sections
+
+### Provision Azure Resources
+
 1. Open a terminal session and log into your subscription with the [`az cli`](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
     ```bash
     az login
@@ -63,11 +73,11 @@ In this project, I've created a basic framework that can be used to run [dbt](ht
     ![service principal](./IaC/assets/create_application.png)
 
 
-## Push your code to Azure Devops
+### Push your code to Azure Devops
 1. Push your code to an azure devops repository.
     ![sample dbt project](./IaC/assets/sample_dbt_proj.png)
 
-## Create a service connection to ACR
+### Create a service connection to ACR
 One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.yml) pipeline is a container image. This is accomplished in azure devops using a [service connection](https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml). Use the steps below to create a service connection to your ACR.
 
 1. Click on *Project Settings* at the bottom right of your screen.
@@ -78,11 +88,11 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 
     ![service connection](./IaC/assets/service_connections.png)
 
-## CICD Pipelines
+### CICD Pipelines
 
 ![cicd workflow](./IaC/assets/cicd.png)
 
-### Workflow
+#### Workflow
 1. Developer raises a PR.
 1. We perform linting and dbt checks. See [integration.yml](./.workflows/ci/integration.yml)
 1. If all checks pass, then we deploy the changes to production. See [deployment.yml](./.workflows/cd/deployment.yml). The deployment involves the following:
@@ -90,7 +100,7 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
     - The creation of a new image.
     - The creation/modification of the container app job to use the new image.
 
-### Pipeline Creation
+#### Pipeline Creation
 1. In Azure Devops, create two pipelines namely:
 
     - dbt_ci:
@@ -117,7 +127,7 @@ One of the artifacts deployed using the [deployment](./.workflows/cd/deployment.
 
     ![variables](./IaC/assets/ci_env_vars.png)
 
-### Pipeline Triggers and Runs
+#### Pipeline Triggers and Runs
 | Pipeline name | Trigger |
 | --------------|---------------|
 | *dbt_ci* | Triggered when a PR to the main branch is raised.
@@ -216,12 +226,25 @@ Logs in the analytics workspace can be queried with Microsoft's [*Kusto Query La
 # Conclusion
 We now have a workflow that we can use to run dbt jobs in azure containerapps instead of dbt cloud. If you don't need all the bells and whistles that come with dbt cloud then I think you must explore other ways of running dbt jobs, such as Azure ContainerApps.
 
+# Clean up
+1. Delete the azure containerapp job in the portal.
+
+1. Use the script below to deprovision the rest of the resources.
+    ```bash
+    # navigate to resource directories and deprovision all resources tracked by terraform
+    cd IaC/
+    terraform destroy -auto-approve
+    cd ../IaC-ServicePrincipal
+    terraform destroy -auto-approve
+    ```
+
 # References
 ## Improve the build time of build pipelines
 https://stackoverflow.com/questions/62420695/how-to-cache-pip-packages-within-azure-pipelines
 
 ## Service Principals
 Automated tools that use Azure services should always have restricted permissions to ensure that Azure resources are secure. Therefore, instead of having applications sign in as a fully privileged user, Azure offers service principals. An Azure service principal is an identity created for use with applications, hosted services, and automated tools. This identity is used to access resources.
+
 
 https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-service-principal
 
